@@ -18,8 +18,9 @@ end
 
 File.open(PING_LOG_FILE, 'a') do |f|
   f.print Time.now.strftime('%Y-%m-%d--%H-%M-%S')
-  f.print ': '
-  f.puts ['192.168.2.1', '8.8.8.8', 'blog.mruby.sh'].map do |h|
-    f.print "#{ping(h).inspect}"
-  end.join(' - ')
+  f.print ';'
+  ['192.168.2.1', '8.8.8.8', 'blog.mruby.sh'].map do |h|
+    f.print "#{ping(h)};"
+  end
+  f.puts
 end
