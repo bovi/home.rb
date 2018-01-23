@@ -17,5 +17,9 @@ def ping ip
 end
 
 File.open(PING_LOG_FILE, 'a') do |f|
-  f.puts "#{Time.now.strftime('%Y-%m-%d--%H-%M-%S')}: #{ping('blog.mruby.sh')}, #{ping('8.8.8.8')}, #{ping('google.de')}"
+  f.print Time.now.strftime('%Y-%m-%d--%H-%M-%S')
+  f.print ': '
+  ['192.168.2.1', '8.8.8.8', 'blog.mruby.sh'].each do |h|
+    f.print "#{ping(h).inspect} - "
+  end
 end
