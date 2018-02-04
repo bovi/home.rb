@@ -43,7 +43,6 @@ def track_environment
   begin
     # get system information
     r = `df -h|grep /mnt/`
-    r = r.split
     disk = r.split[-2]
 
     write_value d, 'd', disk
@@ -54,7 +53,6 @@ def track_environment
   begin
     # get memory information
     r = `cat /proc/meminfo|grep MemAvailable`
-    r = r.split
     memory = r.split[2]
 
     write_value d, 'm', memory
@@ -65,7 +63,6 @@ def track_environment
   begin
     # get wlan signal
     r = `iw dev wlan0 station dump|grep signal`
-    r = r.split
     wlan = r.split[2]
 
     write_value d, 'w', wlan
