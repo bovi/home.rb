@@ -62,8 +62,9 @@ def track_environment
 
   begin
     # get wlan signal
-    r = `iw dev wlan0 station dump|grep signal`
-    wlan = r.split[1].to_i
+    r = `iwconfig`
+    wlan = r.match /level=(.*?) dBm/
+    wlan = wlan[1]
 
     write_value d, 'w', wlan
   rescue
