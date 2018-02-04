@@ -27,11 +27,51 @@ def track_environment
     end
   end
 
-  r = `sudo dht_sensor`
-  m = r.match /Temperature: (.*?\..*?) C Humidity: (.*?\..*?)%/
+  begin
+    # get humidity and temperature
+    r = `sudo dht_sensor`
+    m = r.match /Temperature: (.*?\..*?) C Humidity: (.*?\..*?)%/
+    temp = m[1]
+    humi = m[2]
 
-  write_value d, 't', m[1]
-  write_value d, 'h', m[2]
+    write_value d, 't', temp
+    write_value d, 'h', humi
+  rescue
+    # error while reading temperature and humidity
+  end
+
+  begin
+    # get system information
+    r = `df -h|grep /mnt/`
+    r = r.split
+    disk = r.split[-2]
+
+    write_value d, 'd', disk
+  rescue
+    # error while reading free disk space
+  end
+
+  begin
+    # get memory information
+    r = `cat /proc/meminfo|grep MemAvailable`
+    r = r.split
+    memory = r.split[2]
+
+    write_value d, 'm', memory
+  rescue
+    # error while reading memory
+  end
+
+  begin
+    # get wlan signal
+    r = `iw dev wlan0 station dump|grep signal`
+    r = r.split
+    wlan = r.split[2]
+
+    write_value d, 'w', wlan
+  rescue
+    # error while reading memory
+  end
 end
 
 track_environment
