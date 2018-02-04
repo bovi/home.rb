@@ -8,14 +8,12 @@ SERVER_DIR = '/mnt/storage1'
 HOSTNAME = `hostname`.strip
 
 def rsync_it
-  puts "#{RSYNC} #{RSYNC_ARGS} #{SENSOR_DIR}/* #{SERVER_ADDR}:#{SERVER_DIR}/#{HOSTNAME}/"
   `#{RSYNC} #{RSYNC_ARGS} #{SENSOR_DIR}/* #{SERVER_ADDR}:#{SERVER_DIR}/#{HOSTNAME}/`
 end
 
 def convert_log_files
   dir = "#{SERVER_DIR}/#{HOSTNAME}"
   ts = Time.now.strftime "%Y%m%d%H%M%S"
-  puts "ssh -i /home/dabo/.ssh/id_rsa #{SERVER_ADDR} mv #{dir}/ping.log #{dir}/ping_#{ts}.log"
   `ssh -i /home/dabo/.ssh/id_rsa #{SERVER_ADDR} "mv #{dir}/ping.log #{dir}/ping_#{ts}.log"`
 end
 
