@@ -59,17 +59,6 @@ def track_environment
   rescue
     # error while reading memory
   end
-
-  begin
-    # get wlan signal
-    r = `iwconfig`
-    wlan = r.match /level=(.*?) dBm/
-    wlan = wlan[1]
-
-    write_value d, 'w', wlan
-  rescue
-    # error while reading memory
-  end
 end
 
 track_environment
